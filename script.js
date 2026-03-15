@@ -100,7 +100,7 @@ function showInstructions() {
     const enteredPass = document.getElementById('studentPass').value.trim();
     const errorMsg = document.getElementById('login-error');
 
-    if (enteredName === "ADMIN" && enteredPass === "0000") {
+    if (enteredName === "Siemens" && enteredPass === "1234") {
         localStorage.removeItem("examStatus");
         alert("Admin: Access has been RESET. The student can now log in again.");
         location.reload(); 
