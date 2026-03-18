@@ -39,13 +39,28 @@ function loadSelectedQuestions() {
     userAnswers = new Array(currentQuestions.length).fill(null);
 }
 
-function showInstructions() {
+    function showInstructions() {
     const enteredNameRaw = document.getElementById('studentName').value.trim();
     const enteredPass = document.getElementById('studentPass').value.trim();
     const errorMsg = document.getElementById('login-error');
 
+    // This search looks for the name regardless of capital letters
+    const student = students.find(s => 
+        s.name.toLowerCase() === enteredNameRaw.toLowerCase() && s.pass === enteredPass
+    );
+
+    if (student) {
+        loadSelectedQuestions(); // Loads the questions from your link
+        document.getElementById('login-section').style.display = 'none';
+        document.getElementById('instruction-section').style.display = 'block';
+    } else {
+        errorMsg.innerText = "❌ Invalid Name or TC Number.";
+        errorMsg.style.display = 'block';
+    }
+}
+
     // ADMIN MASTER KEY
-    if (enteredNameRaw.toUpperCase() === "ADMIN" && enteredPass === "0000") {
+    if (enteredNameRaw.toUpperCase() === "Siemens" && enteredPass === "1234") {
         localStorage.removeItem("examStatus");
         alert("Admin: System Reset.");
         location.reload();
