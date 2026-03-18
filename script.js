@@ -4,8 +4,7 @@ const students = [
     { name: "Hitesh", pass: "2685" },
     { name: "Saurabh", pass: "3252" },
     { name: "Soham", pass: "3261" },
-    { name: "Shreya", pass: "3263" },
-    // ... add more students here as needed
+    { name: "Shreya", pass: "3263" }
 ];
 
 let currentQuestions = [];
@@ -13,75 +12,56 @@ let currentQuestionIndex = 0;
 let userAnswers = []; 
 let timeLeft = 1800; 
 let timerInterval;
-let violationCount = 0;
 
-// 1. GET QUESTIONS FROM THE MASTER BANK (questions.js)
-function loadSelectedQuestions() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const selectedIds = urlParams.get('ids');
-
-    let allQuestionsList = [];
-    for (let topic in masterQuestionBank) {
-        allQuestionsList = allQuestionsList.concat(masterQuestionBank[topic]);
-    }
-
-    if (selectedIds) {
-        // Teacher generated a specific link
-        const idArray = selectedIds.split(',');
-        currentQuestions = allQuestionsList.filter(q => idArray.includes(q.id));
-    } else {
-        // Standard Link: Shuffle all and pick 20
-        currentQuestions = allQuestionsList.sort(() => 0.5 - Math.random()).slice(0, 20);
-    }
-    
-    // Shuffle options for each question
-    currentQuestions.forEach(q => q.options = q.options.sort(() => 0.5 - Math.random()));
-    userAnswers = new Array(currentQuestions.length).fill(null);
-}
-
-    function showInstructions() {
+// 1. LOGIN FUNCTION
+function showInstructions() {
     const enteredNameRaw = document.getElementById('studentName').value.trim();
     const enteredPass = document.getElementById('studentPass').value.trim();
     const errorMsg = document.getElementById('login-error');
 
-    // This search looks for the name regardless of capital letters
+    console.log("Attempting login for:", enteredNameRaw, enteredPass);
+
     const student = students.find(s => 
         s.name.toLowerCase() === enteredNameRaw.toLowerCase() && s.pass === enteredPass
     );
 
     if (student) {
-        loadSelectedQuestions(); // Loads the questions from your link
-        document.getElementById('login-section').style.display = 'none';
-        document.getElementById('instruction-section').style.display = 'block';
-    } else {
-        errorMsg.innerText = "❌ Invalid Name or TC Number.";
-        errorMsg.style.display = 'block';
-    }
-}
-
-    // ADMIN MASTER KEY
-    if (enteredNameRaw.toUpperCase() === "Siemens" && enteredPass === "1234") {
-        localStorage.removeItem("examStatus");
-        alert("Admin: System Reset.");
-        location.reload();
-        return;
-    }
-
-    const student = students.find(s => {
-        const firstName = s.name.split(' ')[0].toLowerCase();
-        return firstName === enteredNameRaw.toLowerCase() && s.pass === enteredPass;
-    });
-
-    if (student) {
+        console.log("Login Success!");
         loadSelectedQuestions();
         document.getElementById('login-section').style.display = 'none';
         document.getElementById('instruction-section').style.display = 'block';
     } else {
+        console.error("Login Failed. Check if name/pass matches the list at the top of script.js");
         errorMsg.innerText = "❌ Invalid Name or TC Number.";
         errorMsg.style.display = 'block';
     }
 }
 
+// 2. LOAD QUESTIONS FROM LINK
+function loadSelectedQuestions() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedIds = urlParams.get('ids');
+    
+    let allQuestionsList = [];
+    // masterQuestionBank comes from questions.js
+    if (typeof masterQuestionBank !== 'undefined') {
+        for (let topic in masterQuestionBank) {
+            allQuestionsList = allQuestionsList.concat(masterQuestionBank[topic]);
+        }
+    }
+
+    if (selectedIds) {
+        const idArray = selectedIds.split(',');
+        currentQuestions = allQuestionsList.filter(q => idArray.includes(q.id));
+    } else {
+        // Default to 20 random if no link is used
+        currentQuestions = allQuestionsList.sort(() => 0.5 - Math.random()).slice(0, 20);
+    }
+    
+    userAnswers = new Array(currentQuestions.length).fill(null);
+}
+
+// 3. START EXAM
 function startExam() {
     document.getElementById('instruction-section').style.display = 'none';
     document.getElementById('question-section').style.display = 'block';
@@ -101,7 +81,6 @@ function loadQuestion() {
     const q = currentQuestions[currentQuestionIndex];
     document.getElementById('question-text').innerText = q.q;
     document.getElementById('question-number').innerText = currentQuestionIndex + 1;
-    document.getElementById('progress-bar').style.width = ((currentQuestionIndex + 1) / currentQuestions.length * 100) + "%";
     
     const container = document.getElementById('options-container');
     container.innerHTML = ""; 
