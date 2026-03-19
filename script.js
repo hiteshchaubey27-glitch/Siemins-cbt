@@ -100,10 +100,10 @@ function showInstructions() {
     const enteredPass = document.getElementById('studentPass').value.trim();
     const errorMsg = document.getElementById('login-error');
 
-    // ADMIN RESET (MASTER KEY) - Works for 'admin' or 'ADMIN'
-    if (enteredNameRaw.toUpperCase() === "Siemens" && enteredPass === "1234") {
-        localStorage.removeItem("examStatus");
-        alert("Admin: Access has been RESET.");
+    // --- FIXED ADMIN RESET LOGIC ---
+    if (enteredNameRaw.toLowerCase() === "siemens" && enteredPass === "1234") {
+        localStorage.clear(); // Clear everything
+        alert("✅ Admin: Access has been RESET. The system is now ready for a new session.");
         location.reload(); 
         return;
     }
