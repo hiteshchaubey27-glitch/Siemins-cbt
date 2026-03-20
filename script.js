@@ -64,7 +64,7 @@ const students = [
 ];
 
 const questionBank = [
-    { q: "Two angles are said to be supplementary when their sum is equal to...", options: ["90°", "120°", "180°", "360°"], answer: "180°" },
+    { q: "log of 3253 * 2685 ...", 
     { q: "If one supplementary angle is 150°, find the other angle.", options: ["30°", "45°", "10°", "25°"], answer: "30°" },
     { q: "The supplementary angle of 120° is...", options: ["30°", "60°", "90°", "180°"], answer: "60°" },
     { q: "The formula for the diagonal of a square is...", options: ["√2 * a", "√2 * a²", "2 * a", "a / √2"], answer: "√2 * a" },
