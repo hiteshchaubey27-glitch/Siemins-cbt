@@ -41,7 +41,7 @@
 
         <div id="question-section" class="login-card" style="display: none; max-width: 700px; text-align: left; position: relative; min-height: 520px; padding-bottom: 80px;">
             <div style="display: flex; justify-content: space-between; font-weight: bold; color: #00828c; margin-bottom: 10px;">
-                <span>Question <span id="question-number">1</span> / 20</span>
+                <span>Question <span id="question-number">1</span> / 25</span>
                 <span id="timer-display" style="color: #d9534f;">Time: 30:00</span>
             </div>
             <div class="progress-container"><div id="progress-bar"></div></div>
@@ -56,12 +56,34 @@
 
         <div id="result-section" class="login-card" style="display: none; text-align: center;">
             <h2 id="result-status" style="font-size: 28px;">STATUS</h2>
-            <div style="font-size: 50px; font-weight: bold; margin: 20px 0;"><span id="final-score">0</span>/20</div>
+            <div style="font-size: 50px; font-weight: bold; margin: 20px 0;"><span id="final-score">0</span>/25</div>
             <p id="result-percent" style="margin-bottom: 20px; font-size: 18px;">Percentage: 0%</p>
             <p style="color: #888; font-style: italic; border-top: 1px solid #eee; padding-top: 15px;">Exam ended. Please contact your supervisor.</p>
         </div>
     </div>
 
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-database-compat.js"></script>
+
+    <script>
+        // Corrected Firebase Configuration for Singapore Region
+        const firebaseConfig = {
+            apiKey: "AIzaSyApnWnlnrTFQw5hsHVvjnK0kvwqIh3Nh5E",
+            authDomain: "sta-question-bank.firebaseapp.com",
+            databaseURL: "https://sta-question-bank-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "sta-question-bank",
+            storageBucket: "sta-question-bank.firebasestorage.app",
+            messagingSenderId: "632844417227",
+            appId: "1:632844417227:web:6b60831113d49c18fd834e",
+            measurementId: "G-QPWV3ZFS14"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+    </script>
+
     <script src="script.js"></script>
+
 </body>
 </html>
