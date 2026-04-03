@@ -3,7 +3,7 @@
 let currentQuestions = [];
 let currentQuestionIndex = 0;
 let userAnswers = [];
-let timeLeft = 1800; // 30 minutes
+let timeLeft = 5400; // 90 minutes
 let timerInterval;
 let violationCount = 0;
 
